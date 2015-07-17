@@ -1,3 +1,9 @@
+/*
+* import d3.js
+* Create beautiful line chat for any devices
+* @author Helena Silkina
+*/
+
 ﻿d3.json("/Analytics/GetStatistics", function(error, data) {
 	var statistic = data;
 
