@@ -1,29 +1,25 @@
 /*
 * import d3.js
 * Create beautiful line chat for any devices
+*
 * @author Helena Silkina
 */
 
 ﻿d3.json("/Analytics/GetStatistics", function(error, data) {
 	var statistic = data;
-
 	$('#statisticView').text(statistic.DailyViewsCount);
 	$('#statisticSubscribers').text(statistic.DailySubscriberCount);
-
 	if (statistic.DailyViewsPercent > 0) {
 		$('#viewPercentage').text('+' + statistic.DailyViewsPercent).parent().append('<span class="wgtv-arrow-up">&bsp;</span>');
 	} else {
 		$('#viewPercentage').text(statistic.DailyViewsPercent).parent().append('<span class="wgtv-arrow-down">&bsp;</span>');
 	}
-
 	if (statistic.DailySubscriberPercent > 0) {
 		$('#subscribersPercentage').text('+' + statistic.DailySubscriberPercent).parent().append('<span class="wgtv-arrow-up">&bsp;</span>');
 	} else {
 		$('#subscribersPercentage').text(statistic.DailySubscriberPercent).parent().append('<span class="wgtv-arrow-down">&bsp;</span>');
 	}
-
 	var dataView = statistic.ViewsChartData;
-
 	var margin = {top: 20, right: 40, bottom: 30, left: 90},
 		width = 998 - margin.left - margin.right,
 		height = 298 - margin.top - margin.bottom;
@@ -90,7 +86,7 @@
 
 	svgViews.selectAll(".dot")
       .data(dataView.slice(1))
-    .enter().append("circle")
+      .enter().append("circle")
       .attr("class", "dot")
       .attr("r", 4)
       .attr("cx", function(d) { return x(d.Date); })
@@ -98,22 +94,18 @@
 
 
 	// Subscribers Chart
-
 	var dataSubscribers = statistic.SubscribersChartData;
 	var svgSubscribers = d3.select("#chartSubscribers").append("svg:svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 	  .append("g")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
-
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	dataSubscribers.forEach(function(d) {
 		d.Date = parseDate(d.Date);
 		d.Value = +d.Value;
 	});
-
 	x.domain(d3.extent(dataSubscribers, function(d) { return d.Date; }));
 	y.domain(d3.extent(dataSubscribers, function(d) { return d.Value; }));
-
 	svgSubscribers.append("g")
 		.attr("class", "x axis")
 		.attr("transform", "translate(0," + height + ")")
